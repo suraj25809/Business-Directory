@@ -1,7 +1,7 @@
 # Business-Directory
 # Getting Started with Node JS Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [node js project]
 
 ## Available Scripts
 
