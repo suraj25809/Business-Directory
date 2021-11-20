@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index Page</title>
+
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        .status
+        {
+            color:#fdaf17;
+        }
+
+        .feedback i:hover{
+            color:#fdaf17;
+        }
+    </style>
+
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <%- include('partials/header.ejs')%>
+    <!-- Header End -->
+
+
+    <!--- breadcrumb Section Start ---->
+    
+    <div class="breadcrumb-section" style="background-image:url(images/16.jpg);">
+        <nav aria-label="breadcrumb">
+          <h3>Feedback Form</h3>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Feedback</li>
+          </ol>
+        </nav>
+    </div> 
+    
+    <!--- breadcrumb Section End -->
+
+    <!--- Contact Section Start ---->
+      <div class="container pt-50 pb-50">
+          <div class="card contact-box">
+              <div class="contact-heading">
+                  <h4 class="title-2">Feedback Form</h4>
+              </div>
+              <div class="card-body">
+
+                  <% if(message){ %>
+                      <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+                          <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                          <strong><%= message.message %></strong>
+                      </div>
+                  <% } %>
+
+                  <form action="/feedback" method="POST" name="Form" autocomplete="off" onsubmit="return feedbackvalidation()">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                              <input type="text" class="form-control" name="name" placeholder="Enter your Name">
+                              <span class="text-danger px-3 py-1 fst-normal" id="nameErr"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                              <input type="text" class="form-control" name="email" placeholder="Enter your Email">
+                              <span class="text-danger px-3 py-1 fst-normal" id="emailErr"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <textarea placeholder="Enter your Feedback" name="feedback" class="form-control"></textarea>
+                            <span class="text-danger px-3 py-1 fst-normal" id="feedbackErr"></span>
+                        </div>
+                        <h6 class="mb-3">Please Rate your Experience</h6>
+                        <div class="d-flex align-items-center justify-content-between">
+                            
+                            <div class="feedback" style="font-size:24px">
+                              <i class="bx bxs-star" onmouseenter="stars(0)"></i>
+                              <i class="bx bxs-star" onmouseenter="stars(1)"></i>
+                              <i class="bx bxs-star" onmouseenter="stars(2)"></i>
+                              <i class="bx bxs-star" onmouseenter="stars(3)"></i>
+                              <i class="bx bxs-star" onmouseenter="stars(4)"></i>
+                              <span class="count" id="rate-num">0</span>
+                              <input type="hidden" name="rating" id="rating">
+                              
+                            </div>
+                          </div>
+                          <span class="text-danger px-3 py-1 fst-normal" id="ratingErr"></span>
+                        <div class="mb-3 mt-5">
+                          <button class="default-btn-1">Submit Now</button>
+                        </div>
+                    </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+    <!--- Contact Section End ---->
+
+    <!-- Footer Section --->
+    <%- include('partials/footer.ejs')%>
+    <!-- Footer Section --->
+
+
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+
+        function stars(e)
+        {
+            var myval = null;
+            let star = document.querySelectorAll('.bx');
+            let rate_num = document.querySelector('#rate-num');
+
+            for (let i = 0; i < star.length; i++) {
+                star[i].classList.remove('status');
+            }
+
+            for (let j = 0; j <= e; j++) {
+                star[j].classList.add('status');
+                myval = j + 1;
+            }
+            rate_num.innerHTML = myval;
+            document.getElementById('rating').value = myval;
+        }
+
+        function feedbackvalidation()
+        {
+            let name = document.Form.name.value;
+            let email = document.Form.email.value;
+            let feedback = document.Form.feedback.value;
+            let rating = document.Form.rating.value;
+
+            let nameErr = emailErr = feedbackErr = ratingErr =  true;
+
+
+            if(name == "")
+            {
+                document.getElementById('nameErr').innerHTML = "* Please Enter Full Name";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(name) === false)
+                {
+                    document.getElementById('nameErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('nameErr').innerHTML = "";
+                    nameErr = false;      
+                }
+            }
+
+            if(email == "")
+            {
+                document.getElementById('emailErr').innerHTML = "* Please Enter Email Address";
+            }
+            else
+            {
+                var regex = /^\S+@\S+\.\S+$/;
+                if(regex.test(email) === false)
+                {
+                    document.getElementById('emailErr').innerHTML = "* Please Enter Valid Email Address";
+                } 
+                else
+                {
+                    document.getElementById('emailErr').innerHTML = "";
+                    emailErr = false;
+                }
+            }
+
+            if(feedback == "")
+            {
+                document.getElementById('feedbackErr').innerHTML = "* Please Enter Feedback";
+            }
+            else
+            {
+                
+                document.getElementById('feedbackErr').innerHTML = "";
+                feedbackErr = false;      
+            }
+
+            if(rating == "")
+            {
+                document.getElementById('ratingErr').innerHTML = "* Please Rate your Experience";
+            }
+            else
+            {
+                
+                document.getElementById('ratingErr').innerHTML = "";
+                ratingErr = false;      
+            }
+
+            if((nameErr || emailErr || feedbackErr || ratingErr) == true)
+            {
+                return false;
+            }
+
+        }
+       
+    </script>
+
+  </body>
+</html>

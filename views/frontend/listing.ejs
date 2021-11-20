@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Listing</title>
+
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <%- include('partials/header.ejs')%>
+    <!-- Header End -->
+
+
+    <!--- breadcrumb Section Start ---->
+    
+    <div class="breadcrumb-section" style="background-image:url(images/16.jpg);">
+        <nav aria-label="breadcrumb">
+          <h3>Add Listing</h3>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Listing</li>
+          </ol>
+        </nav>
+    </div> 
+    
+    <!--- breadcrumb Section End -->
+
+    <!--- Listing Section Start -->
+ 
+      <div class="pt-50 pb-50">
+        <div class="container">
+            <div class="row">
+
+                <% if(message){ %>
+                    <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+                        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <strong><%= message.message %></strong>
+                    </div>
+                <% } %>
+
+                <form action="/listing" enctype="multipart/form-data"  method="POST" name="Form" onsubmit="return checkvalidation()">
+
+                    <input type="hidden" name="userId" value="<%= userdata._id %>"
+
+                    <h4 class="title-2">Category Informations</h4>
+                    <hr/>
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Choose Category</label>
+                            <select class="form-select" name="category">
+                                <option value="">Select Category</option>
+                                <% data.forEach((row, index) => { %>
+                                    <option value="<%= row.cname %>"><%= row.cname %></option>
+                                <% }) %>                               
+                            </select>
+                            <p class="text-danger px-3 py-1" id="categoryErr"></p>
+                          </div>
+                      </div>
+                    </div>
+                      
+                    <h4 class="title-2">Basic Informations</h4>
+                    <hr/>
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Business Name</label>
+                            <input type="text" class="form-control" name="bname" placeholder="Enter the Listing Name">
+                            <p class="text-danger px-3 py-1" id="businessErr"></p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Business Tagline</label>
+                            <input type="text" class="form-control" name="btagline" placeholder="Enter the Listing Tagline">
+                            <p class="text-danger px-3 py-1" id="taglineErr"></p>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" name="bdetails" placeholder="Listing Details"></textarea>
+                        <p class="text-danger px-3 py-1" id="detailsErr"></p>
+                    </div>
+
+                    <h4 class="title-2 mt-5">Contact Informations</h4>
+                    <hr/>
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="uname" placeholder="Enter Name">
+                            <p class="text-danger px-3 py-1" id="nameErr"></p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number">
+                            <p class="text-danger px-3 py-1" id="phoneErr"></p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Alternative Phone Number</label>
+                            <input type="text" class="form-control" name="aphone" placeholder="Enter Alternative Phone Number">
+                            <p class="text-danger px-3 py-1" id="aphoneErr"></p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="text" class="form-control" name="email" placeholder="Enter Email Address">
+                            <p class="text-danger px-3 py-1" id="emailErr"></p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Alternative Email Address</label>
+                            <input type="text" class="form-control" name="aemail" placeholder="Enter Alternative Email Address">
+                            <p class="text-danger px-3 py-1" id="aemailErr"></p>
+                          </div>
+                      </div>
+                    </div>
+
+                    <h4 class="title-2 mt-5">Listing Location</h4>
+                    <hr/>
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-control" name="address" placeholder="Enter Address">
+                            <p class="text-danger px-3 py-1" id="addressErr"></p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" name="city" placeholder="Enter City">
+                            <p class="text-danger px-3 py-1" id="cityErr"></p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Pincode</label>
+                            <input type="text" class="form-control" name="pincode" placeholder="Enter Pincode">
+                            <p class="text-danger px-3 py-1" id="pincodeErr"></p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">State</label>
+                            <input type="text" class="form-control" name="state" placeholder="Enter State">
+                            <p class="text-danger px-3 py-1" id="stateErr"></p>
+                          </div>
+                      </div>
+                    </div>
+
+                    <h4 class="title-2 mt-5">Image</h4>
+                    <hr/>
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Business Image</label>
+                            <input type="file" class="form-control" name="image" placeholder="Enter Address">
+                            <p class="text-danger px-3 py-1" id="imageErr"></p>
+                          </div>
+                      </div>
+                    </div>
+
+                    <h4 class="title-2 mt-5">Location Details</h4>
+                    <hr/>
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Latitude</label>
+                            <input type="text" class="form-control" name="latitude" placeholder="Latitude" id="lat" readonly>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Longitude</label>
+                            <input type="text" class="form-control" name="longitude" placeholder="Longitude" id="lon" readonly>
+                          </div>
+                      </div>
+                      <div class="col-lg-12">
+                          <div id="myMap" style="height: 450px;"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-left mt-5">
+                        <button class="default-btn-1">Add Listing</button>
+                    </div>
+
+                </form>
+            </div>
+            
+        </div>
+      </div>
+
+
+    <!--- Listing Section End -->
+
+    <!-- Footer Section --->
+    <%- include('partials/footer.ejs')%>
+    <!-- Footer Section --->
+
+
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+    <script type="text/javascript">
+
+        // get current coordinates
+        function getLocation()
+        {
+            if(navigator.geolocation)
+            {
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            }
+            else
+            {
+                alert("Your Browser Not Supported GeoLocation");
+            }
+        }
+
+        // get coordinates position
+        function onSuccess(position)
+        {
+            const { latitude, longitude } = position.coords;
+            let lat = latitude;
+            let lon = longitude;
+            //console.log(position);
+            var latitudes = document.getElementById('lat').value = lat;
+            var longitudes = document.getElementById('lon').value = lon; 
+
+
+            var map = L.map('myMap').setView([lat, lon], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+
+           // L.marker([lat, lon]).addTo(map);
+
+            let newMarker = new L.marker([lat, lon], {draggable: true}).addTo(map);
+            
+          //  newMarker.on('click', function(ev) {
+                //console.log(ev.latlng); 
+
+              newMarker.on('dragend', function(event){
+                  var position = newMarker.getLatLng();
+                  console.log(position.lat + " : " +  position.lng);
+                  newMarker.setLatLng(position, { draggable: 'true' }).bindPopup(position).update();
+
+                  $("#lat").val(position.lat);
+                  $("#lon").val(position.lng).keyup();
+              });
+              map.addLayer(newMarker);
+
+         //   });
+
+ 
+        }
+
+
+        // get coordinates error msg
+        function onError(error)
+        {
+            alert(error.message);
+            console.log(error);
+
+            var map = L.map('myMap').setView([51.505, -0.09], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+
+            L.marker([51.505, -0.09]).addTo(map).bindPopup('Please Allow to Access GeoLocation !!!').openPopup();
+        }
+
+        // window load event occur
+        window.addEventListener("load", getLocation);
+
+
+        // validation
+        function checkvalidation()
+        {
+
+            let category = document.Form.category.value;
+            let bname = document.Form.bname.value;
+            let btagline = document.Form.btagline.value;
+            let bdetails = document.Form.bdetails.value;
+            let uname = document.Form.uname.value;
+            let phone = document.Form.phone.value;
+            let email = document.Form.email.value;
+            let address = document.Form.address.value;
+            let city = document.Form.city.value;
+            let pincode = document.Form.pincode.value;
+            let state = document.Form.state.value;
+            let image = document.Form.image.value;
+
+            let categoryErr = businessErr = taglineErr = detailsErr = nameErr = phoneErr  = emailErr  = addressErr = cityErr = pincodeErr = stateErr = imageErr = true;
+
+            if(category == "")
+            {
+                document.getElementById('categoryErr').innerHTML = "* Please Choose the Category";
+            }
+            else
+            {
+                document.getElementById('categoryErr').innerHTML = "";
+                categoryErr = false;
+                       
+            }
+
+            if(bname == "")
+            {
+                document.getElementById('businessErr').innerHTML = "* Please Enter Business Name";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(bname) === false)
+                {
+                    document.getElementById('businessErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('businessErr').innerHTML = "";
+                    businessErr = false;
+                       
+                }
+            }
+
+            if(btagline == "")
+            {
+                document.getElementById('taglineErr').innerHTML = "* Please Enter Business Tagline";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(btagline) === false)
+                {
+                    document.getElementById('taglineErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('taglineErr').innerHTML = "";
+                    taglineErr = false;
+                       
+                }
+            }
+
+            if(bdetails == "")
+            {
+                document.getElementById('detailsErr').innerHTML = "* Please Enter Business Details";
+            }
+            else
+            {
+                document.getElementById('detailsErr').innerHTML = "";
+                detailsErr = false;
+            }
+
+            if(uname == "")
+            {
+                document.getElementById('nameErr').innerHTML = "* Please Enter Full Name";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(uname) === false)
+                {
+                    document.getElementById('nameErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('nameErr').innerHTML = "";
+                    nameErr = false;
+                       
+                }
+            }
+
+            if(phone == "")
+            {
+                document.getElementById('phoneErr').innerHTML = "* Please Enter Mobile Number";
+            }
+            else
+            {
+                var regex = /^[0-9]\d{9}$/;
+                if(regex.test(phone) === false)
+                {
+                    document.getElementById('phoneErr').innerHTML = "* Please Enter Valid 10 Digit Mobile Number";
+                } 
+                else
+                {
+                    document.getElementById('phoneErr').innerHTML = "";
+                    phoneErr = false;
+                }
+            }
+
+            if(email == "")
+            {
+                document.getElementById('emailErr').innerHTML = "* Please Enter Email Address";
+            }
+            else
+            {
+                var regex = /^\S+@\S+\.\S+$/;
+                if(regex.test(email) === false)
+                {
+                    document.getElementById('emailErr').innerHTML = "* Please Enter Valid Email Address";
+                } 
+                else
+                {
+                    document.getElementById('emailErr').innerHTML = "";
+                    emailErr = false;
+                }
+            }
+
+            if(address == "")
+            {
+                document.getElementById('addressErr').innerHTML = "* Please Enter Full Address";
+            }
+            else
+            {
+                 document.getElementById('addressErr').innerHTML = "";
+                  addressErr = false;
+            }
+
+
+            if(city == "")
+            {
+                document.getElementById('cityErr').innerHTML = "* Please Enter City Name";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(city) === false)
+                {
+                    document.getElementById('cityErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('cityErr').innerHTML = "";
+                    cityErr = false;
+                       
+                }
+            }
+
+            if(pincode == "")
+            {
+                document.getElementById('pincodeErr').innerHTML = "* Please Enter Pincode";
+            }
+            else
+            {
+                var regex = /^[0-9]\d{5}$/;
+                if(regex.test(pincode) === false)
+                {
+                    document.getElementById('pincodeErr').innerHTML = "* Please Enter Valid 6 Digit Pincode";
+                } 
+                else
+                {
+                    document.getElementById('pincodeErr').innerHTML = "";
+                    pincodeErr = false;
+                }
+            }
+
+
+            if(state == "")
+            {
+                document.getElementById('stateErr').innerHTML = "* Please Enter State Name";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(state) === false)
+                {
+                    document.getElementById('stateErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('stateErr').innerHTML = "";
+                    stateErr = false;
+                       
+                }
+            }
+
+            if(image == "")
+            {
+                document.getElementById('imageErr').innerHTML = "* Please Select Image";
+            }
+            else
+            {
+                document.getElementById('imageErr').innerHTML = "";
+                imageErr = false;
+
+            }
+
+
+            if((categoryErr || businessErr || taglineErr || detailsErr || nameErr || phoneErr || emailErr || addressErr || cityErr || pincodeErr || stateErr || imageErr) == true)
+            {
+                return false;
+            }
+
+        }
+
+        // function getLocation()
+        // {
+        //   if(navigator.geolocation)
+        //   {
+        //       navigator.geolocation.watchPosition(showPosition);
+        //   }
+        //   else
+        //   {
+        //     alert("Your Browser Not Supported Geo Location");
+        //   }
+        // }
+
+        // function showPosition(position)
+        // {
+        //     latitude = position.coords.latitude;
+        //     longitude = position.coords.longitude;
+
+        //     console.log("Your Coords" + latitude + " : " + longitude);
+        // }
+
+
+    </script>
+  </body>
+</html>

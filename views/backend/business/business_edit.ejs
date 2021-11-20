@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Admin - Business Update</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+		
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="/assets/css/feathericon.min.css">
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="/assets/plugins/summernote/dist/summernote-bs4.css">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="/assets/css/style.css">
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+		
+		<!----- Box Icons CSS ------>
+    	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+		
+			<!-- Header -->
+            <%- include('../partials/navbar.ejs')%>
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+            <%- include('../partials/sidebar.ejs')%>
+			<!-- /Sidebar -->
+			
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+				
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col">
+								<h3 class="page-title">Bussiness</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="#">Category</a></li>
+									<li class="breadcrumb-item active">Update Business</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Business Details</h4>
+								</div>
+								<div class="card-body">
+
+									<% if(message){ %>
+				                        <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+				                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+				                            <strong><%= message.message %></strong>
+				                        </div>
+				                    <% } %>
+
+									<form action="/admin/business/edit/<%= business._id %>" enctype="multipart/form-data" method="POST">
+				                        <div class="row">
+				                          
+				                            <div class="col-xl-6">
+				                              <div class="form-group row">
+				                                <label class="col-form-label col-md-8">Select Category</label>
+				                                <div class="col-md-12">
+				                                  <select class="form-control" name="category" required>
+				                                    <option value="<%= business.cname %>"><%= business.cname %> </option>
+				                                    <% data.forEach((row, index) => { %>
+				                                    <option value="<%= row.cname %>"><%= row.cname %></option>
+				                                    <% }) %>
+				                                  </select>
+				                                </div>
+				                              </div>
+
+				                            </div>
+				                            <div class="col-xl-6">
+				                              <div class="form-group row">
+				                                <label class="col-lg-8 col-form-label">Contact Person Name</label>
+				                                <div class="col-lg-12">
+				                                  <input type="text" class="form-control" name="uname" value="<%= business.uname %>">
+				                                </div>
+				                              </div>
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>General information</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Business Name</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="bname" value="<%= business.bname %>">
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Business Tagline</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="tagline" value="<%= business.btitle %>">
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label class="col-lg-8 col-form-label">Business Description</label>
+				                                    <div class="col-lg-12">
+				                                        <textarea rows="5" cols="5" class="form-control" name="details" ><%= business.bdetails %></textarea>
+				                                    </div>
+				                                </div>
+				                                
+				                            </div>
+				                           
+				                            <div class="col-xl-6">
+				                                <h5>Contact information</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Phone</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="phone" value="<%= business.phone %>" minlength="10" maxlength="10">
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Alternate phone</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="aphone" value="<%= business.aphone %>" minlength="10" maxlength="10">
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label class="col-lg-8 col-form-label">Email Address</label>
+				                                    <div class="col-lg-12">
+				                                      <input type="text" class="form-control" name="email" value="<%= business.email %>">
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label class="col-lg-8 col-form-label">Alternate Email Address</label>
+				                                    <div class="col-lg-12">
+				                                      <input type="text" class="form-control" name="aemail" value="<%= business.aemail %>">
+				                                    </div>
+				                                </div>
+				                                
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>Address Details</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Address</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="address" value="<%= business.address %>">
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Pincode</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" minlength="6" maxlength="6" name="pincode" class="form-control" value="<%= business.pincode %>">
+				                                  </div>
+				                                </div>
+				                            </div>
+				                            <div class="col-xl-6">
+				                                <div class="form-group row" style="margin-top: 30px;">
+				                                  <label class="col-lg-8 col-form-label">City</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="city" value="<%= business.city %>">
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">State</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="state" value="<%= business.state %>">
+				                                  </div>
+				                                </div>
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>Gallery</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Business Image</label>
+				                                  <div class="col-lg-12">
+
+													<div class="custom-file">
+														<input type="file" class="custom-file-input" name="image">
+														<label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+													</div>
+
+				                                    <img src="/<%= business.bimage %>" alt="user-images" width="100px" height="100px" class="img-thumbnail mt-3">
+				                                  </div>
+				                                </div>
+				                            </div>
+				                            <input type="hidden" name="old_image" value="<%= business.bimage %>" />
+
+				                            <div class="col-xl-6">
+				                                <h5>Status</h5>
+				                                <div class="form-group row">
+				                                    <label class="col-lg-8 col-form-label">Status</label>
+				                                    <div class="col-lg-12">
+				                                      <div class="form-check form-check-inline">
+				                                        <input class="form-check-input" type="radio" name="status" value="Active" checked="">
+				                                        <label class="form-check-label">Active</label>
+				                                      </div>
+				                                      <div class="form-check form-check-inline">
+				                                        <input class="form-check-input" type="radio" name="status" value="Inactive">
+				                                        <label class="form-check-label">Inactive</label>
+				                                      </div>
+				                                    </div>
+				                                </div>
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>Location information</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Latitude</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="latitude" id="lat" value="<%= business.latitude %>">
+				                                  </div>
+				                                </div>
+				                            </div>
+				                            <div class="col-xl-6">
+				                                <div class="form-group row" style="margin-top: 30px;">
+				                                  <label class="col-lg-8 col-form-label">Longitude</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="longitude" id="lon" value="<%= business.longitude %>">
+				                                  </div>
+				                                </div>
+				                            </div>
+				                            <div class="col-lg-12">
+				                              <div id="myMap" style="height: 450px;"></div>
+				                            </div>
+
+				                        </div>
+				                        
+				                        <div class="text-left p-5">
+				                            <button class="btn btn-primary mx-3" type="submit">Update Business</button>
+				                            <a class="btn btn-danger px-4" href="/admin/business">Cancel</a>
+				                        </div>
+
+				                    </form>
+
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				
+				</div>			
+			</div>
+			<!-- /Main Wrapper -->
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+        <script src="/assets/js/jquery-3.2.1.min.js"></script>
+		
+		<!-- Bootstrap Core JS -->
+        <script src="/assets/js/popper.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+		
+		<!-- Slimscroll JS -->
+        <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		
+		
+		<script src="/assets/plugins/summernote/dist/summernote-bs4.min.js"></script>
+		
+		<!-- Custom JS -->
+		<script src="/assets/js/script.js"></script>
+
+		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+		<script type="text/javascript">
+    
+   
+	        // map
+	        function getLocation()
+	        {
+	            var latitudes = document.getElementById('lat').value;
+	            var longitudes = document.getElementById('lon').value; 
+
+
+	            var map = L.map('myMap').setView([latitudes, longitudes], 13);
+
+	            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+
+	            let newMarker = new L.marker([latitudes, longitudes], {draggable: true}).addTo(map);
+	            
+	            newMarker.on('dragend', function(event){
+	                var position = newMarker.getLatLng();
+	                console.log(position.lat + " : " +  position.lng);
+	                newMarker.setLatLng(position, { draggable: 'true' }).bindPopup(position).update();
+
+	                $("#lat").val(position.lat);
+	                $("#lon").val(position.lng).keyup();
+	            });
+	            map.addLayer(newMarker);
+	 
+	        }
+
+	        // window load event occur
+	        window.addEventListener("load", getLocation);
+
+	    </script>
+		
+    </body>
+
+</html>

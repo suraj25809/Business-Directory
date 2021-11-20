@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Admin - Business Add</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+		
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="/assets/css/feathericon.min.css">
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="/assets/plugins/summernote/dist/summernote-bs4.css">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="/assets/css/style.css">
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+		
+		<!----- Box Icons CSS ------>
+    	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+		
+			<!-- Header -->
+            <%- include('../partials/navbar.ejs')%>
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+            <%- include('../partials/sidebar.ejs')%>
+			<!-- /Sidebar -->
+			
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+				
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col">
+								<h3 class="page-title">Bussiness</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="#">Category</a></li>
+									<li class="breadcrumb-item active">Add Business</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Business Details</h4>
+								</div>
+								<div class="card-body">
+
+									<% if(message){ %>
+				                        <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+				                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+				                            <strong><%= message.message %></strong>
+				                        </div>
+				                    <% } %>
+
+									<form action="/admin/business/add" enctype="multipart/form-data" method="POST">
+				                        <div class="row">
+				                          
+				                            <div class="col-xl-6">
+				                              <div class="form-group row">
+				                                <label class="col-form-label col-md-8">Select Category</label>
+				                                <div class="col-md-12">
+				                                  <select class="custom-select" name="category" required>
+				                                    <option value="">Select Category</option>
+				                                    <% data.forEach((row, index) => { %>
+				                                    <option value="<%= row.cname %>"><%= row.cname %></option>
+				                                    <% }) %>
+				                                  </select>
+				                                </div>
+				                              </div>
+
+				                            </div>
+				                            <div class="col-xl-6">
+				                              <div class="form-group row">
+				                                <label class="col-lg-8 col-form-label">Contact Person Name</label>
+				                                <div class="col-lg-12">
+				                                  <input type="text" class="form-control" name="uname" placeholder="Enter Name" required>
+				                                </div>
+				                              </div>
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>General information</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Business Name</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="bname" placeholder="Enter Business Name" required>
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Business Tagline</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="tagline" placeholder="Enter Business Tagline" required>
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label class="col-lg-8 col-form-label">Business Description</label>
+				                                    <div class="col-lg-12">
+				                                        <textarea rows="5" cols="5" class="form-control" name="details" placeholder="Enter Business Description" required></textarea>
+				                                    </div>
+				                                </div>
+				                                
+				                            </div>
+				                           
+				                            <div class="col-xl-6">
+				                                <h5>Contact information</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Phone</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number" required minlength="10" maxlength="10">
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Alternate phone</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="aphone" placeholder="Enter Alternate Phone Number" minlength="10" maxlength="10">
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label class="col-lg-8 col-form-label">Email Address</label>
+				                                    <div class="col-lg-12">
+				                                      <input type="text" class="form-control" name="email" placeholder="Enter Email Address" required>
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label class="col-lg-8 col-form-label">Alternate Email Address</label>
+				                                    <div class="col-lg-12">
+				                                      <input type="text" class="form-control" name="aemail" placeholder="Enter Alternate Email Address">
+				                                    </div>
+				                                </div>
+				                                
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>Address Details</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Address</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="address" placeholder="Enter Address" required>
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Pincode</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" minlength="6" maxlength="6" name="pincode" class="form-control" placeholder="Enter Pincode" required>
+				                                  </div>
+				                                </div>
+				                            </div>
+				                            <div class="col-xl-6">
+				                                <div class="form-group row" style="margin-top: 30px;">
+				                                  <label class="col-lg-8 col-form-label">City</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="city" placeholder="Enter City" required>
+				                                  </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">State</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="state" placeholder="Enter State" required>
+				                                  </div>
+				                                </div>
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>Gallery</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Business Image</label>
+				                                  <div class="col-lg-12">
+
+													<div class="custom-file">
+														<input type="file" class="custom-file-input" name="image" required>
+														<label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+													</div>
+													
+				                                  </div>
+				                                </div>
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>Status</h5>
+				                                <div class="form-group row">
+				                                    <label class="col-lg-8 col-form-label">Status</label>
+				                                    <div class="col-lg-12">
+				                                      <div class="form-check form-check-inline">
+				                                        <input class="form-check-input" type="radio" name="status" value="Active" checked="">
+				                                        <label class="form-check-label">Active</label>
+				                                      </div>
+				                                      <div class="form-check form-check-inline">
+				                                        <input class="form-check-input" type="radio" name="status" value="Inactive">
+				                                        <label class="form-check-label">Inactive</label>
+				                                      </div>
+				                                    </div>
+				                                </div>
+				                            </div>
+
+				                            <div class="col-xl-6">
+				                                <h5>Location information</h5>
+				                                <div class="form-group row">
+				                                  <label class="col-lg-8 col-form-label">Latitude</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="latitude" id="lat" placeholder="Enter Latitude" required>
+				                                  </div>
+				                                </div>
+				                            </div>
+				                            <div class="col-xl-6">
+				                                <div class="form-group row" style="margin-top: 30px;">
+				                                  <label class="col-lg-8 col-form-label">Longitude</label>
+				                                  <div class="col-lg-12">
+				                                    <input type="text" class="form-control" name="longitude" id="lon" placeholder="Enter Longitude" required>
+				                                  </div>
+				                                </div>
+				                            </div>
+				                            <div class="col-lg-12">
+				                              <div id="myMap" style="height: 450px;"></div>
+				                            </div>
+
+				                        </div>
+				                        
+				                        <div class="text-left p-5">
+				                            <button class="btn btn-primary mx-3" type="submit">Add Business</button>
+				                            <a class="btn btn-danger px-4" href="/admin/business">Cancel</a>
+				                        </div>
+
+				                      </form>
+
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				
+				</div>			
+			</div>
+			<!-- /Main Wrapper -->
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+        <script src="/assets/js/jquery-3.2.1.min.js"></script>
+		
+		<!-- Bootstrap Core JS -->
+        <script src="/assets/js/popper.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+		
+		<!-- Slimscroll JS -->
+        <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		
+		
+		<script src="/assets/plugins/summernote/dist/summernote-bs4.min.js"></script>
+		
+		<!-- Custom JS -->
+		<script src="/assets/js/script.js"></script>
+
+		<script type="text/javascript">
+    
+	      // get current coordinates
+	      function getLocation()
+	        {
+	            if(navigator.geolocation)
+	            {
+	                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	            }
+	            else
+	            {
+	                alert("Your Browser Not Supported GeoLocation");
+	            }
+	        }
+
+	        // get coordinates position
+	        function onSuccess(position)
+	        {
+	            const { latitude, longitude } = position.coords;
+	            let lat = latitude;
+	            let lon = longitude;
+	            //console.log(position);
+	            var latitudes = document.getElementById('lat').value = lat;
+	            var longitudes = document.getElementById('lon').value = lon; 
+
+
+	            var map = L.map('myMap').setView([lat, lon], 13);
+
+	            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+
+	           // L.marker([lat, lon]).addTo(map);
+
+	            let newMarker = new L.marker([lat, lon], {draggable: true}).addTo(map);
+	            
+	          //  newMarker.on('click', function(ev) {
+	                //console.log(ev.latlng); 
+
+	              newMarker.on('dragend', function(event){
+	                  var position = newMarker.getLatLng();
+	                  console.log(position.lat + " : " +  position.lng);
+	                  newMarker.setLatLng(position, { draggable: 'true' }).bindPopup(position).update();
+
+	                  $("#lat").val(position.lat);
+	                  $("#lon").val(position.lng).keyup();
+	              });
+	              map.addLayer(newMarker);
+
+	         //   });
+
+	 
+	        }
+
+
+	        // get coordinates error msg
+	        function onError(error)
+	        {
+	            alert(error.message);
+	            console.log(error);
+
+	            var map = L.map('myMap').setView([51.505, -0.09], 15);
+
+	            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+
+	            L.marker([51.505, -0.09]).addTo(map).bindPopup('Please Allow to Access GeoLocation !!!').openPopup();;
+	        }
+
+	        // window load event occur
+	        window.addEventListener("load", getLocation);
+
+	    </script>
+		
+    </body>
+
+</html>

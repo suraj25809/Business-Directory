@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Admin - About</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+		
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="/assets/css/feathericon.min.css">
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="/assets/plugins/summernote/dist/summernote-bs4.css">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="/assets/css/style.css">
+		
+		<!----- Box Icons CSS ------>
+    	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+		
+			<!-- Header -->
+            <%- include('./partials/navbar.ejs')%>
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+            <%- include('./partials/sidebar.ejs')%>
+			<!-- /Sidebar -->
+			
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+				
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col">
+								<h3 class="page-title">About</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+									<li class="breadcrumb-item active">About Details</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">About Details</h4>
+								</div>
+								<div class="card-body">
+
+									<% if(message){ %>
+			                            <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+			                                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+			                                <strong><%= message.message %></strong>
+			                            </div>
+			                        <% } %>
+
+			                        <% if(typeof error_msg!= 'undefined'){ %> 
+			                          <div class="alert alert-warning"><%= error_msg %> </div>
+			                        <% } %>
+
+									<form action="/admin/about/update/<%= data._id %>" enctype="multipart/form-data" method="POST">
+
+				                        <div class="form-group row">
+				                          <label class="col-form-label col-md-2">Title</label>
+				                          <div class="col-md-8">
+				                            <input type="text" class="form-control" name="title" value="<%= data.atitle %>" required>
+				                          </div>
+				                        </div>
+				                        <div class="form-group row">
+				                          <label class="col-form-label col-md-2">Image</label>
+				                          <div class="col-md-8">
+				                            <input class="custom-file-input" type="file" name="image">
+				                            <img src="/<%= data.aimage %>" alt="user-images" width="120px" height="120px" class="img-thumbnail mt-3">
+				                          </div>
+				                        </div>
+				                        <input type="hidden" name="old_image" value="<%= data.aimage %>" />
+				                        <div class="form-group row">
+				                            <label class="col-form-label col-md-2">Description</label>
+				                            <div class="col-md-8">
+				                              <textarea class="form-control" name="description" cols="30" rows="15" required><%= data.adescription %></textarea>
+				                            </div>
+				                        </div>
+
+				                        <div class="text-left" style="margin-left: 100px;">
+				                            <button class="btn btn-primary">Update</button>
+				                            <a class="btn btn-danger" href="/admin/dashboard">Cancel</a>
+				                        </div>
+
+				                    </form>
+
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				
+				</div>			
+			</div>
+			<!-- /Main Wrapper -->
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+        <script src="/assets/js/jquery-3.2.1.min.js"></script>
+		
+		<!-- Bootstrap Core JS -->
+        <script src="/assets/js/popper.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+		
+		<!-- Slimscroll JS -->
+        <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		
+		
+		<script src="/assets/plugins/summernote/dist/summernote-bs4.min.js"></script>
+		
+		<!-- Custom JS -->
+		<script src="/assets/js/script.js"></script>
+		
+    </body>
+
+</html>

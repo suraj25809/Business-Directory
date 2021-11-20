@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index Page</title>
+
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <%- include('partials/header.ejs')%>
+    <!-- Header End -->
+
+
+    <!--- breadcrumb Section Start ---->
+    
+    <div class="breadcrumb-section" style="background-image:url(images/16.jpg);">
+        <nav aria-label="breadcrumb">
+          <h3>Contact Us</h3>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+          </ol>
+        </nav>
+    </div> 
+    
+    <!--- breadcrumb Section End -->
+
+    <!---- Address Section Start ---->
+
+    <div class="container pt-80">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="contact-info-box">
+                    <div class="back-icon">
+                        <i class="bx bx-map"></i>
+                    </div>
+                    <div class="icon">
+                        <i class="bx bx-map"></i>
+                    </div>
+                    <h3>Our Address</h3>
+                    <p>175 5th Ave, New York, NY 10010, United States</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="contact-info-box">
+                    <div class="back-icon">
+                        <i class="bx bx-phone-call"></i>
+                    </div>
+                    <div class="icon">
+                        <i class="bx bx-phone-call"></i>
+                    </div>
+                    <h3>Contact Us</h3>
+                    <p>(+44) - 45789 - 5789</p>
+                    <p>hello@vesax.com</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="contact-info-box">
+                    <div class="back-icon">
+                        <i class="bx bx-time-five"></i>
+                    </div>
+                    <div class="icon">
+                        <i class="bx bx-time-five"></i>
+                    </div>
+                    <h3>Hours of Operation</h3>
+                    <p>Monday - Friday: 09:00 - 20:00</p>
+                    <p>Sunday & Saturday: 10:30 - 22:00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------- Address Section End ------>
+
+    <!--- Contact Section Start ---->
+      <div class="container pt-50 pb-50">
+          <div class="card contact-box">
+              <div class="contact-heading">
+                  <h4 class="title-2">Get A Quote</h4>
+              </div>
+              <div class="card-body">
+
+                  <% if(message){ %>
+                      <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+                          <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                          <strong><%= message.message %></strong>
+                      </div>
+                  <% } %>
+
+                  <form action="/contact" method="POST" name="Form" onsubmit="return contactvalidation()" autocomplete="off">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                              <input type="text" class="form-control" name="cname" placeholder="Enter your Name">
+                              <span class="text-danger px-3 py-1 fst-normal" id="nameErr"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                              <input type="text" class="form-control" name="email" placeholder="Enter your Email">
+                              <span class="text-danger px-3 py-1 fst-normal" id="emailErr"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                              <input type="text" class="form-control" name="phone" placeholder="Enter your Phone">
+                              <span class="text-danger px-3 py-1 fst-normal" id="phoneErr"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                              <input type="text" class="form-control" name="subject" placeholder="Enter Subject">
+                              <span class="text-danger px-3 py-1 fst-normal" id="subjectErr"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <textarea placeholder="Enter Message" name="message" class="form-control"></textarea>
+                            <span class="text-danger px-3 py-1 fst-normal" id="messageErr"></span>
+                        </div>
+                        <div class="mb-3">
+                          <button class="default-btn-1">Get a Free Service</button>
+                        </div>
+                    </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+    <!--- Contact Section End ---->
+
+    <!--- Map Section Start ---->
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9334.271551495209!2d-73.97198251485975!3d40.668170674982946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25b0456b5a2e7%3A0x68bdf865dda0b669!2sBrooklyn%20Botanic%20Garden%20Shop!5e0!3m2!1sen!2sbd!4v1590597267201!5m2!1sen!2sbd" allowfullscreen="" aria-hidden="false" tabindex="0" width="100%" height="450px" frameborder="0"></iframe>
+
+    <!--- Map Section End --->
+
+    <!-- Footer Section --->
+    <%- include('partials/footer.ejs')%>
+    <!-- Footer Section --->
+
+
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+
+        function contactvalidation()
+        {
+            let name = document.Form.cname.value;
+            let email = document.Form.email.value;
+            let phone = document.Form.phone.value;
+            let subject = document.Form.subject.value;
+            let message = document.Form.message.value;
+            
+            let nameErr = emailErr = phoneErr = subjectErr = messageErr =  true;
+
+            if(name == "")
+            {
+                document.getElementById('nameErr').innerHTML = "* Please Enter Full Name";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(name) === false)
+                {
+                    document.getElementById('nameErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('nameErr').innerHTML = "";
+                    nameErr = false;      
+                }
+            }
+
+            if(phone == "")
+            {
+                document.getElementById('phoneErr').innerHTML = "* Please Enter Mobile Number";
+            }
+            else
+            {
+                var regex = /^[0-9]\d{9}$/;
+                if(regex.test(phone) === false)
+                {
+                    document.getElementById('phoneErr').innerHTML = "* Please Enter Valid 10 Digit Mobile Number";
+                } 
+                else
+                {
+                    document.getElementById('phoneErr').innerHTML = "";
+                    phoneErr = false;
+                }
+            }
+
+            if(email == "")
+            {
+                document.getElementById('emailErr').innerHTML = "* Please Enter Email Address";
+            }
+            else
+            {
+                var regex = /^\S+@\S+\.\S+$/;
+                if(regex.test(email) === false)
+                {
+                    document.getElementById('emailErr').innerHTML = "* Please Enter Valid Email Address";
+                } 
+                else
+                {
+                    document.getElementById('emailErr').innerHTML = "";
+                    emailErr = false;
+                }
+            }
+
+            if(subject == "")
+            {
+                document.getElementById('subjectErr').innerHTML = "* Please Enter Subject";
+            }
+            else
+            {
+                
+                document.getElementById('subjectErr').innerHTML = "";
+                subjectErr = false;      
+            }
+
+            if(message == "")
+            {
+                document.getElementById('messageErr').innerHTML = "* Please Enter Message";
+            }
+            else
+            {
+                
+                document.getElementById('messageErr').innerHTML = "";
+                messageErr = false;      
+            }
+
+            if((nameErr || emailErr || phoneErr || subjectErr || messageErr) == true)
+            {
+                return false;
+            }
+
+        }
+
+    </script>
+
+  </body>
+</html>

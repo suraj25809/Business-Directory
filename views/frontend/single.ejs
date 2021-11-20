@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listing Page</title>
+
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
+    <style>
+      .status
+      {
+          color:#fdaf17;
+      }
+
+      .feedback i:hover{
+          color:#fdaf17;
+      }
+  </style>
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <%- include('partials/header.ejs')%>
+    <!-- Header End -->
+
+    <!--- Map Section Start ---->
+
+    <div class="col-lg-12">
+        <div id="myMap" style="height: 450px;"></div>
+    </div>
+
+     <!--- Map Section End -->
+
+    <% if(typeof error_msg!= 'undefined'){ %> 
+      <div class="alert alert-warning"><%= error_msg %> </div>
+    <% } %>
+
+    <!--- About Section Start -->
+
+      <!----- Map Data Store ----->
+      <input type="hidden" name="latitude" id="latitude" value="<%= data.latitude %>">
+      <input type="hidden" name="longitude" id="longitude" value="<%= data.longitude %>">
+      <!----- Map Data Store ----->
+
+      <div class="pt-50 pb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 single-business-listing">
+                  <div class="single-content mb-5">
+                    <div class="mb-4">
+                      <h5 class="title-4" style="margin-bottom: 4px;" id="bname"><%= data.bname %></h5>
+                      <span style="font-weight: 500;margin-left: 20px;"><%= data.btitle %></span>
+                    </div>
+                    <p><%= data.bdetails %> </p>
+
+                  </div>
+                  
+                  <% data.reviews.forEach((row, index) => { %>
+                  <div class="user-review">
+                    <div class="row m-0">
+                      <div class="col-lg-3 col-md-3">
+                        <div class="user">
+                          <img src="/images/user1.png" alt="image">
+                        </div>
+                      </div>
+                      <div class="col-lg-9 col-md-9">
+                        <div class="d-flex justify-content-between">
+                          <div class="title">
+                            <h4><%= row.name %></h4>
+                          </div>
+                          <div class="rating">
+                            <% if(row.rating == 1) { %>
+                              <span class="bx bxs-star checked"></span>
+                            <% } else if(row.rating == 2) { %>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                            <% } else if(row.rating == 3) { %>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                            <% } else if(row.rating == 4) { %>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                            <% } else { %>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                              <span class="bx bxs-star checked"></span>
+                            <% } %>
+                          </div>
+                        </div>
+                        <div class="comments">
+                          <p><%= row.review %></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% }) %>
+
+                  <!------ Review Form Start ------->
+                  <div class="user-review">
+                    <div>
+                      <h5 class="title-5">Description</h5>
+                    </div>
+                   
+                    <% if(message){ %>
+                      <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+                          <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                          <strong><%= message.message %></strong>
+                      </div>
+                    <% } %>
+
+                    <form name="Form" autocomplete="off" method="post" onsubmit="return feedbackvalidation()">
+                      <input type="hidden" name="businessId" value="<%= data._id %>" /> 
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="mb-3">
+                                <input type="text" class="form-control" name="uname" placeholder="Name">
+                                <span class="text-danger px-3 py-1 fst-normal" id="unameErr"></span>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <h6 class="mb-3">Please Rate your Experience</h6>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="feedback" style="font-size:24px">
+                                  <i class="bx bxs-star" onmouseenter="stars(0)"></i>
+                                  <i class="bx bxs-star" onmouseenter="stars(1)"></i>
+                                  <i class="bx bxs-star" onmouseenter="stars(2)"></i>
+                                  <i class="bx bxs-star" onmouseenter="stars(3)"></i>
+                                  <i class="bx bxs-star" onmouseenter="stars(4)"></i>
+                                  <span class="count" id="rate-num">0</span>
+                                  <input type="hidden" name="rating" id="rating">
+                                </div>
+                              </div>
+                              <span class="text-danger px-3 py-1 fst-normal" id="ratingErr"></span>
+                          </div>
+                          <div class="mb-3">
+                              <textarea placeholder="Your Review" name="feedback" class="form-control"></textarea>
+                              <span class="text-danger px-3 py-1 fst-normal" id="feedbackErr"></span>
+                          </div>
+                          
+                            
+                          <div class="mb-3 mt-3">
+                            <button class="default-btn-1">Submit Now</button>
+                          </div>
+                      </div>
+                    </form>
+                  </div>
+                  <!-----  Review Form End ------>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                  <div class="listings-widget listings_author">
+                    <h3>Hosted By</h3>
+
+                    <div class="author">
+                      <div class="d-flex align-items-center">
+                        <img src="/images/user1.png" alt="image">
+                        <div class="title">
+                          <h4>
+                            <a href="#"><%= data.uname %> </a>
+                          </h4>
+                          <span><%= data.city %> </span>
+                        </div>
+                      </div>
+
+                      <div class="author-profile">
+                        <div class="row d-flex align-items-center">
+                          <div class="col-lg-4 col-md-4 col-3">
+                            <img src="/images/share.svg" alt="" width="25" style="width:25px">
+                          </div>
+                          <div class="col-lg-8 col-md-8 col-9">
+                            <ul class="social">
+                              <li>
+                                <a href="#" target="_blank">
+                                  <i class="bx bxl-facebook"></i>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="#" target="_blank">
+                                  <i class="bx bxl-twitter"></i>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="#" target="_blank">
+                                  <i class="bx bxl-linkedin"></i>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="#" target="_blank">
+                                  <i class="bx bxl-instagram"></i>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+                  <!-- <div class="listings-widget listings_contact_details">
+                    <h3>Contact Details</h3>
+                    <ul>
+                      <li>
+                        <i class="bx bx-globe"></i>
+                        <a href="#">www.vesax.com</a>
+                      </li>
+                      <li>
+                        <i class="bx bx-phone-call"></i>
+                        <a href="#">(+212) 279-1456</a>
+                      </li>
+                      <li>
+                        <i class="bx bx-directions"></i>
+                        <a href="#">Get Directions</a>
+                      </li>
+                      <li>
+                        <i class="bx bx-map"></i>
+                        <a href="#"> New York, USA</a>
+                      </li>
+                      </ul>
+                  </div> -->
+
+
+                  <div class="imp-boxes">
+                    <div class="imp-boxes-single">
+                      <div class="imp-boxes-single-icon"><img src="/images/phone.svg" alt="" width="25"></div>
+                      <div class="imp-boxes-single-content"><%= data.phone %> </div>
+                    </div>
+                    <div class="imp-boxes-single">
+                      <div class="imp-boxes-single-icon"><img src="/images/phone.svg" alt="" width="25"></div>
+                      <div class="imp-boxes-single-content"><%= data.aphone %> </div>
+                    </div>
+                    <div class="imp-boxes-single">
+                      <div class="imp-boxes-single-icon"><img src="/images/mail.svg" alt="" width="25"></div>
+                      <div class="imp-boxes-single-content"><%= data.email %></div>
+                    </div>
+                    <div class="imp-boxes-single">
+                      <div class="imp-boxes-single-icon"><img src="/images/mail.svg" alt="" width="25"></div>
+                      <div class="imp-boxes-single-content"><%= data.aemail %></div>
+                    </div>
+                    <div class="imp-boxes-single">
+                      <div class="imp-boxes-single-icon"><img src="/images/address.svg" alt="" width="25"></div>
+                      <div class="imp-boxes-single-content"><%= data.address %></div>
+                    </div>
+
+                    <!-- <div class="imp-boxes-single">
+                      <div class="imp-boxes-single-icon"><img src="/images/share.svg" alt="" width="25"></div>
+                      <div class="imp-boxes-single-content">
+                        <ul>
+                          <li><a href="#"><i class='bx bxl-facebook' ></i></i></a></li>
+                          <li><a href="#"><i class='bx bxl-twitter' ></i></a></li>
+                          <li><a href="#"><i class='bx bxl-google-plus' ></i></a></li>
+                          <li><a href="#"><i class='bx bxl-instagram' ></i></a></li>
+                          <li><a href="#"><i class='bx bxl-linkedin' ></i></a></li>
+                        </ul>
+                      </div>
+                    </div> -->
+
+                  </div>
+
+
+                </div>
+
+                
+            </div>
+            
+        </div>
+      </div>
+      
+    <!--- About Section End -->
+
+    <!-- Footer Section --->
+    <%- include('partials/footer.ejs')%>
+    <!-- Footer Section --->
+
+
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+    <script>
+
+        // var map = L.map('myMap').setView([51.505, -0.09], 15);
+
+        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+
+        // L.marker([51.505, -0.09]).addTo(map).bindPopup('Please Allow to Access GeoLocation !!!').openPopup();
+
+        let lat = document.getElementById('latitude').value;
+        let lon = document.getElementById('longitude').value;
+
+        let data = document.getElementById('bname').innerHTML;
+
+        var map = L.map('myMap', {
+          zoom: 12,
+          maxZoom: 20,
+          tap: false,
+          gestureHandling: true,
+          center: [lat, lon]
+        });
+
+        map.scrollWheelZoom.disable();
+
+        var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          scrollWheelZoom: false,
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // var icon = L.divIcon({
+        // 	html: '<i class="fa fa-building map-icon"></i>',
+        // 	iconSize: [50, 50],
+        // 	iconAnchor: [50, 50],
+        // 	popupAnchor: [-20, -42]
+        // });
+
+        var marker = L.marker([lat,lon]).addTo(map).bindPopup(data).openPopup();
+
+        function stars(e)
+        {
+            var myval = null;
+            let star = document.querySelectorAll('.feedback .bx');
+            let rate_num = document.querySelector('#rate-num');
+
+            for (let i = 0; i < star.length; i++) {
+                star[i].classList.remove('status');
+            }
+
+            for (let j = 0; j <= e; j++) {
+                star[j].classList.add('status');
+                myval = j + 1;
+            }
+            rate_num.innerHTML = myval;
+            document.getElementById('rating').value = myval;
+        }
+
+
+
+        function feedbackvalidation()
+        {
+            let uname = document.Form.uname.value;
+            let feedback = document.Form.feedback.value;
+            let rating = document.Form.rating.value;
+
+            let unameErr = feedbackErr = ratingErr =  true;
+
+
+            if(uname == "")
+            {
+                document.getElementById('unameErr').innerHTML = "* Please Enter Full Name";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(uname) === false)
+                {
+                    document.getElementById('unameErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('unameErr').innerHTML = "";
+                    unameErr = false;      
+                }
+            }
+
+            if(feedback == "")
+            {
+                document.getElementById('feedbackErr').innerHTML = "* Please Enter Feedback";
+            }
+            else
+            {
+                
+                document.getElementById('feedbackErr').innerHTML = "";
+                feedbackErr = false;      
+            }
+
+            if(rating == "")
+            {
+                document.getElementById('ratingErr').innerHTML = "* Please Rate your Experience";
+            }
+            else
+            {
+                
+                document.getElementById('ratingErr').innerHTML = "";
+                ratingErr = false;      
+            }
+
+            if((unameErr || feedbackErr || ratingErr) == true)
+            {
+                return false;
+            }
+
+        }
+
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index Page</title>
+
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+   
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <%- include('partials/header.ejs')%> 
+    <!-- Header End -->
+
+
+    <!--- Banner Start ---->
+    
+    <div class="main-banner-area">
+        <div class="container">
+          <div class="main-banner-content">
+
+              <h1>Find Nearby <span class="typing"></span></h1>
+              <p>Explore top-rated attractions, activities and more...</p>
+
+              <form action="/search" method="GET">
+                <div class="row m-0 align-items-center">
+                  <div class="col-lg-6 col-md-12 p-0">
+                    <div class="form-group">
+                      <label><i class='bx bx-search-alt'></i></label>
+                      <input type="text" placeholder="What are you looking for?" name="name" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-12 p-0">
+                    <div class="form-group" style="border-right: none">
+                      <label><i class='bx bx-map'></i></label>
+                      <input type="text" placeholder="Location" name="location" class="form-control">
+                    </div>
+                  </div>
+                  <!-- <div class="col-lg-3 col-md-6 p-0">
+                    <div class="form-group">
+                      <label><i class='bx bx-category-alt'></i></label>
+                      <select class="form-select">
+                        <option selected>Select</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                      
+                    </div>
+                  </div> -->
+                  <div class="col-lg-2 col-md-12 p-0">
+                    <div class="submit-btn">
+                      <button type="submit">Search Now</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <ul class="popular-search-list">
+                <li>Popular:</li>
+                <li>
+                  <a href="#">Restaurants</a>
+                </li>
+                <li>
+                  <a href="#">Events</a>
+                </li>
+                <li>
+                  <a href="#">Clothing</a>
+                </li>
+                <li>
+                  <a href="#">Bank</a>
+                </li>
+                <li>
+                  <a href="#">Fitness</a>
+                </li>
+                <li>
+                  <a href="#">Bookstore</a>
+                </li>
+              </ul>
+
+            <!-- <div id="typed-strings">
+              <h4>Find Near By <Strong id="typed"></Strong></h4>
+            </div> -->
+
+          </div>
+            
+            
+
+
+        </div>
+        
+    </div> 
+    
+    <!--- Banner End -->
+
+
+    <!---- Category Start ---->
+    <div class="pt-50 pb-50">
+      <div class="container">
+          <div class="section-title">
+
+            <% if(typeof error_msg!= 'undefined'){ %> 
+              <div class="alert alert-warning"><%= error_msg %> </div>
+            <% } %>
+
+            <h2>Browse Businesses by Category</h2>
+            <div class="dlab-separator"></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra.</p>
+          </div>
+          <div class="row">
+
+            <% if(category != ''){ %>
+            <% category.forEach((row) => { %>
+            
+              <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                  <div class="single-category-box">
+                    <div class="icon">
+                        <img src="<%= row.cimage %>" alt="category-image">
+                    </div>
+                    <h3><%= row.cname  %> </h3><span>Explore Now</span>
+                    <a class="link-btn" href="/find/<%= row.cname %>"></a>
+                  </div>
+              </div>
+
+            <% }) %>
+            <% } else { %>
+              <h1 class="text-center text-secondary mt-5">No Category Found!!!</h1>
+            <% } %>
+
+          </div>
+      </div>
+    </div>
+      
+    <!------ Category End ----->
+
+    <!---- How Work Start ---->
+    <div class="pt-50 pb-50 bg-f9f9f9">
+      <div class="container">
+          <div class="section-title">
+            <h2>How It Works</h2>
+            <div class="dlab-separator"></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra.</p>
+          </div>
+          <div class="row"> 
+
+            <div class="col-lg-4 col-md-6 col-sm-6 ng-star-inserted">
+              <div class="single-how-it-works-box">
+                <div class="icon">
+                  <i class="fa fa-handshake-o" aria-hidden="true"></i>
+                </div>
+                <h3>Find Interesting Place</h3>
+                <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-6 ng-star-inserted">
+              <div class="single-how-it-works-box">
+                <div class="icon">
+                  <i class="fa fa-wpexplorer" aria-hidden="true"></i>
+                </div>
+                <h3>Find Interesting Place</h3>
+                <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-6 ng-star-inserted">
+              <div class="single-how-it-works-box">
+                <div class="icon">
+                  <i class="fa fa-crosshairs" aria-hidden="true"></i>
+                </div>
+                <h3>Find Interesting Place</h3>
+                <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
+              </div>
+            </div>
+
+          </div>
+      </div>
+    </div>
+      
+    <!------ How Work End ----->
+
+    <!---- Listing Section Start --->
+
+    <section class="pt-50 pb-50">
+        <div class="container">
+          <div class="section-title">
+            <h2>Recently Added Listings</h2>
+            <div class="dlab-separator"></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra.</p>
+          </div>
+          <div class="row">
+
+            <% if(bdata != ''){ %>
+            <% bdata.forEach((result) => { %>
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="single-listings-box">
+                    
+                  <div class="listings-image">
+                    <div class="single-image">
+                      <img alt="listing-image" src="<%= result.bimage %>" class="img-fluid">
+                      <a class="link-btn" href="/view/<%= result._id %>"></a>
+                    </div>
+                  </div>
+
+                  <div class="listings-content">
+                      <!-- <div class="author">
+                        <div class="d-flex align-items-center">
+                          <img alt="image" src="images/user1.jpg">
+                          <span>Taylor</span>
+                        </div>
+                      </div> -->
+                      <ul class="listings-meta">
+                          <li>
+                            <a href="#"><i class='bx bx-category'></i> <%= result.cname %> </a>
+                          </li>
+                      </ul>
+                      <h3><a href="/view/<%= result._id %>"><%= result.bname %> </a></h3>
+                      <span class="status status-open">
+                        <i class='bx bx-map'></i> <%= result.address %>  
+                      </span>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div class="rating">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <span class="count">(45)</span>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+            <% }) %>
+            <% } else { %>
+              <h1 class="text-center text-secondary mt-5">No Listing Found!!!</h1>
+            <% } %>
+
+          </div>
+        </div>
+
+    </section>
+
+    <!---- Lisiting Section End --->
+
+    <!---- App Section Start ---->
+    <section class="app-download-area mt-50">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-md-12">
+              <div class="app-download-content ng-star-inserted">
+                <h2>Download Vesax App</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <div class="btn-box">
+                  <a target="_blank" class="playstore-btn ng-star-inserted" href="#">
+                    <img alt="image" src="images/play-store.png"> GET IT ON <span>Google Play</span></a>
+                    <a target="_blank" class="playstore-btn ng-star-inserted" href="#"><img alt="image" src="images/apple-store.png"> Download on the <span>Apple Store</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-12">
+              <div class="app-download-image">
+                  <img alt="image" src="/images/app-download.png">
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    
+    <!----- App Section End ---->
+
+    <!-- Footer Section ---->
+    <%- include('partials/footer.ejs')%>
+    <!-- Footer Section --->
+
+
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <script>
+
+      // var typed = new Typed('#typed', {
+      //   stringsElement: '#typed-strings'
+      // });
+   
+
+      var typed = new Typed('.typing', {
+
+        strings: ['Shopping', 'Hotels', 'Beauty', 'Restaurents', 'Fitness', 'Spa'],
+        smartBackspace: true, // Default value
+        typeSpeed: 90,
+        startDelay: 20,
+        backSpeed: 90,
+        shuffle: false,
+        backDelay: 900,
+        loop: true,
+        loopCount: Infinity,
+        showCursor: true,
+        cursorChar: '|',
+        autoInsertCss: true,
+        fadeOut: false,
+        fadeOutClass: 'typed-fade-out',
+        fadeOutDelay: 500,
+
+      });
+
+
+        // // get current coordinates
+        // function getLocation()
+        // {
+        //     if(navigator.geolocation)
+        //     {
+        //         navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        //     }
+        //     else
+        //     {
+        //         alert("Your Browser Not Supported GeoLocation");
+        //     }
+        // }
+
+        // // get coordinates position
+        // function onSuccess(position)
+        // {
+        //     const { latitude, longitude } = position.coords;
+        //     let lat = latitude;
+        //     let lon = longitude;
+        //     console.log(position); 
+        // }
+
+        // // get coordinates error msg
+        // function onError(error)
+        // {
+        //     alert(error.message);
+        //     console.log(error);
+        // }
+
+        // // window load event occur
+        // window.addEventListener("load", getLocation);
+
+    </script>
+    
+  </body>
+</html>
