@@ -8,7 +8,7 @@ This project was bootstrapped with [node js project]
 In the project directory, you can run:
 
 ### `npm start`
-       or
+or
 ### `npm run dev`
 
 Runs the app in the development mode.\
@@ -21,7 +21,7 @@ You will also see any lint errors in the console.
 
 Changes in mainController.js
 
-'youremailaddress'   -> your email address
+'youremailaddress'   -> your email address \
 'emailpassword'  ->  your email  password
 
 ### `npm test`
