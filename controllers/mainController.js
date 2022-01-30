@@ -184,7 +184,7 @@ exports.postContactPage = (req, res) => {
 
     const mailOptions = {
         from : email,
-        to : 'akashjaiswal1226@gmail.com',
+        to : 'emailaddress',
         subject : subject,
         text : message,
         html: `<p>Name : ${cname} <br/> Email : ${email} <br/> Phone : ${phone} <br/> Subject : ${subject} <br/> Message : ${ message} <br/></p>`,
