@@ -1,7 +1,12 @@
 # Business-Directory
-# Getting Started with Node JS Project
 
-This project was bootstrapped with [node js project]
+## Getting Started with Node JS Project
+
+This project was Develop Using\
+Node Js\
+Express Js\
+MongoDB\
+EJS Template Engine
 
 ## Available Scripts
 
